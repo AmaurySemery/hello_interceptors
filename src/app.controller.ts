@@ -1,4 +1,4 @@
-import { Controller, Get, UseInterceptors } from '@nestjs/common';
+import { Controller, Get, Param, UseInterceptors } from '@nestjs/common';
 import { AppService } from './app.service';
 import { MesureDurationInterceptor } from './mesure-duration/mesure-duration.interceptor';
 import { LogClientsInterceptor } from './log-clients/log-clients.interceptor';
@@ -8,9 +8,9 @@ import { EnrichResponseInterceptor } from './enrich-response/enrich-response.int
 export class AppController {
   constructor(private readonly appService: AppService) {}
 
-  @Get()
+  @Get('hello/:name')
   @UseInterceptors(MesureDurationInterceptor, LogClientsInterceptor, EnrichResponseInterceptor)
-  getHello(): string {
-    return this.appService.getHello();
+  getHello(@Param('name') name: string): string {
+    return this.appService.getHello(name);
   }
 }
